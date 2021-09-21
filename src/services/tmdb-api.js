@@ -10,13 +10,15 @@ async function fetchWithErrorHandling(url = "", config = {}) {
 
 export function fetchMovies() {
   return fetchWithErrorHandling(
-    `${BASE_URL}/trending/all/day?api_key=${API_KEY}`
+    `${BASE_URL}/trending/movie/day?api_key=${API_KEY}`
   );
 }
 
-// export function fetchBooks() {
-//   return fetchWithErrorHandling(`${BASE_URL}/books`);
-// }
+export function searchBooks(nameFilm) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&page=1&query=${nameFilm}`
+  );
+}
 
 // export function fetchBookById(bookId) {
 //   return fetchWithErrorHandling(`${BASE_URL}/books/${bookId}?_expand=author`);
