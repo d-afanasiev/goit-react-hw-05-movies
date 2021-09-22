@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { searchBooks } from "../services/tmdb-api";
+import { Link } from "react-router-dom";
 
 export default function MoviesPage() {
   const [searchFilms, setSearchFilms] = useState([]);
@@ -32,7 +33,9 @@ export default function MoviesPage() {
       </form>
       <ul>
         {searchFilms.map((film) => (
-          <li key={film.id}>{film.title}</li>
+          <li key={film.id}>
+            <Link to={`/movies/${film.id}`}>{film.title}</Link>
+          </li>
         ))}
       </ul>
     </>

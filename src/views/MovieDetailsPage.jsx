@@ -9,33 +9,36 @@ export default function MovieDetailsPage() {
   let { movieId } = useParams();
 
   useEffect(() => {
-    fetchMovieById(movieId).then((data) => {
-      setMovie(data);
-      setGenres(data.genres);
-    });
+    fetchMovieById(movieId)
+      .then((data) => {
+        setMovie(data);
+        setGenres(data.genres);
+      })
+      .catch((error) => console.log(error));
   }, [movieId]);
   console.log(movie);
 
   console.log(genres);
   return (
     <>
-      <div className={css.wrapperMovie}>
-        <div className={css.imageMovie}>
-          <img
-            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-            alt={movie.title}
-          />
+      {movie && (
+        <div className={css.wrapperMovie}>
+          <div className={css.imageMovie}>
+            <img
+              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </div>
+          <div>
+            <h1>{movie.title}</h1>
+            <p>User Popularity: {Math.round(movie.popularity)}</p>
+            <h2>Overview</h2>
+            <p>{movie.overview}</p>
+            <h3>Genres</h3>
+            <p>{genres.map((genre) => `${genre.name} `)}</p>
+          </div>
         </div>
-        <div>
-          <h1>{movie.title}</h1>
-          <p>User Popularity: {Math.round(movie.popularity)}</p>
-          <h2>Overview</h2>
-          <p>{movie.overview}</p>
-          <h3>Genres</h3>
-          <p>{genres.map((genre) => `${genre.name} `)}</p>
-        </div>
-      </div>
-      <div></div>
+      )}
     </>
   );
 }
