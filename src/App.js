@@ -3,6 +3,7 @@ import Container from "./components/Container";
 import AppBar from "./components/AppBar";
 import HomePage from "./views/HomePage";
 import MoviesPage from "./views/MoviesPage";
+import MovieDetailsPage from "./views/MovieDetailsPage";
 import "./App.css";
 
 function App() {
@@ -16,7 +17,9 @@ function App() {
         <Route path="/movies" exact>
           <MoviesPage />
         </Route>
-        <Route path="/movies/:movieId"></Route>
+        <Route path="/movies/:movieId">
+          <MovieDetailsPage />
+        </Route>
       </Switch>
     </Container>
   );

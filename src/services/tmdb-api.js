@@ -20,6 +20,8 @@ export function searchBooks(nameFilm) {
   );
 }
 
-// export function fetchBookById(bookId) {
-//   return fetchWithErrorHandling(`${BASE_URL}/books/${bookId}?_expand=author`);
-// }
+export function fetchMovieById(bookId) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/movie/${bookId}?api_key=${API_KEY}&language=en-US`
+  );
+}
