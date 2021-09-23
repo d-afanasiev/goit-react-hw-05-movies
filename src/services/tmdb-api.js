@@ -20,8 +20,20 @@ export function searchBooks(nameFilm) {
   );
 }
 
-export function fetchMovieById(bookId) {
+export function fetchMovieById(movieId) {
   return fetchWithErrorHandling(
-    `${BASE_URL}/movie/${bookId}?api_key=${API_KEY}&language=en-US`
+    `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`
+  );
+}
+
+export function fetchActorsById(movieId) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
+  );
+}
+
+export function fetchReviewsById(movieId) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`
   );
 }
