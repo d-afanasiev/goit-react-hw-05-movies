@@ -4,26 +4,29 @@ import { fetchReviewsById } from "../services/tmdb-api";
 export default function Reviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
 
-  console.log(reviews === true);
+  console.log(reviews);
 
   useEffect(() => {
-    fetchReviewsById(movieId).then((reviews) => setReviews(reviews.results));
+    fetchReviewsById(movieId)
+      .then((reviews) => setReviews(reviews.results))
+      .catch((error) => console.log(error));
   }, [movieId]);
 
   //   console.log(actors);
   return (
-    <ul>
-      {!reviews && (
-        <li>
-          <p>We don't have any rewiews for this movie</p>
-        </li>
+    <>
+      {reviews.length === 0 ? (
+        <p>We don't have any rewiews for this movie</p>
+      ) : (
+        <ul>
+          {reviews.map((review) => (
+            <li key={review.id}>
+              <h5>{review.author}</h5>
+              <p>{review.content}</p>
+            </li>
+          ))}
+        </ul>
       )}
-      {reviews.map((review) => (
-        <li key={review.id}>
-          <h5>{review.author}</h5>
-          <p>{review.content}</p>
-        </li>
-      ))}
-    </ul>
+    </>
   );
 }
