@@ -15,7 +15,6 @@ export default function MoviesPage() {
     searchBooks(nameFilm).then((data) => {
       setSearchFilms(data.results);
     });
-    console.dir(searchFilms);
   };
 
   return (

@@ -14,8 +14,6 @@ export default function HomePage() {
       .catch((error) => Notify.failure(error));
   }, []);
 
-  console.log(movies);
-
   return (
     <>
       <h1>Trending today</h1>

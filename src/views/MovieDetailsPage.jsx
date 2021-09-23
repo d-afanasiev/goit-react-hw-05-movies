@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { fetchMovieById } from "../services/tmdb-api";
+import { getYear, parseISO } from "date-fns";
 import css from "../styles/MovieDetailsPage.module.css";
 
 export default function MovieDetailsPage() {
@@ -16,9 +17,9 @@ export default function MovieDetailsPage() {
       })
       .catch((error) => console.log(error));
   }, [movieId]);
-  console.log(movie);
 
-  console.log(genres);
+  // console.log(movie.release_date);
+
   return (
     <>
       {movie && (
@@ -30,7 +31,9 @@ export default function MovieDetailsPage() {
             />
           </div>
           <div>
-            <h1>{movie.title}</h1>
+            <h1>
+              {movie.title} {`(${getYear(parseISO(movie.release_date))})`}
+            </h1>
             <p>User Popularity: {Math.round(movie.popularity)}</p>
             <h2>Overview</h2>
             <p>{movie.overview}</p>
