@@ -2,10 +2,12 @@ import { useState } from "react";
 import { searchBooks } from "../services/tmdb-api";
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
+import Loader from "react-loader-spinner";
 
 export default function MoviesPage() {
   const [searchFilms, setSearchFilms] = useState([]);
   const [nameFilm, setNameFilm] = useState("");
+  const [status, setStatus] = useState("idle");
 
   const { url } = useRouteMatch();
 
@@ -17,9 +19,15 @@ export default function MoviesPage() {
 
   const handleSubmitFilm = (e) => {
     e.preventDefault();
-    searchBooks(nameFilm).then((data) => {
-      setSearchFilms(data.results);
-    });
+
+    setStatus("pending");
+
+    searchBooks(nameFilm)
+      .then((data) => {
+        setSearchFilms(data.results);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setStatus("resolved"));
   };
 
   return (
@@ -35,13 +43,24 @@ export default function MoviesPage() {
         />
         <button type="submit">Поиск</button>
       </form>
-      <ul>
-        {searchFilms.map((film) => (
-          <li key={film.id}>
-            <Link to={`${url}/${film.id}`}>{film.title}</Link>
-          </li>
-        ))}
-      </ul>
+      {status === "pending" && (
+        <Loader
+          type="Circles"
+          color="rgb(56, 56, 56)"
+          height={100}
+          width={100}
+          timeout={1000} //3 secs
+        />
+      )}
+      {status === "resolved" && (
+        <ul>
+          {searchFilms.map((film) => (
+            <li key={film.id}>
+              <Link to={`${url}/${film.id}`}>{film.title}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }

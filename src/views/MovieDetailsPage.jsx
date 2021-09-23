@@ -2,8 +2,9 @@ import { Route, Switch, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { fetchMovieById } from "../services/tmdb-api";
 import { getYear, parseISO } from "date-fns";
-import { Notify, Block } from "notiflix";
+// import { Notify, Block } from "notiflix";
 import { Link, useRouteMatch } from "react-router-dom";
+import Loader from "react-loader-spinner";
 import Reviews from "./Reviews";
 import Cast from "./Cast";
 import css from "../styles/MovieDetailsPage.module.css";
@@ -11,18 +12,19 @@ import css from "../styles/MovieDetailsPage.module.css";
 export default function MovieDetailsPage() {
   const [movie, setMovie] = useState("");
   const [genres, setGenres] = useState([]);
+  const [status, setStatus] = useState("idle");
   let { movieId } = useParams();
   const { url } = useRouteMatch();
 
   useEffect(() => {
-    Block.circle("body", "Loading...", { cssAnimationDuration: 1000 });
+    setStatus("pending");
     fetchMovieById(movieId)
       .then((data) => {
         setMovie(data);
         setGenres(data.genres);
       })
-      .catch((error) => Notify.failure(error))
-      .finally(() => Block.remove("body"));
+      .catch((error) => console.log(error))
+      .finally(() => setStatus("resolved"));
   }, [movieId]);
 
   const renderImage = () => {
@@ -37,7 +39,16 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      {movie && (
+      {status === "pending" && (
+        <Loader
+          type="Circles"
+          color="rgb(56, 56, 56)"
+          height={100}
+          width={100}
+          timeout={1000} //3 secs
+        />
+      )}
+      {status === "resolved" && (
         <>
           <div className={css.wrapperMovie}>
             <div className={css.imageMovie}>

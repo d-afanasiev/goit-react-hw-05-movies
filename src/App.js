@@ -5,6 +5,7 @@ import HomePage from "./views/HomePage";
 import MoviesPage from "./views/MoviesPage";
 import MovieDetailsPage from "./views/MovieDetailsPage";
 import "./App.css";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 function App() {
   return (
