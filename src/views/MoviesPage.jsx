@@ -3,6 +3,7 @@ import { searchBooks } from "../services/tmdb-api";
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
 import Loader from "react-loader-spinner";
+import css from "../styles/MoviesPage.module.css";
 
 export default function MoviesPage() {
   const [searchFilms, setSearchFilms] = useState([]);
@@ -32,7 +33,7 @@ export default function MoviesPage() {
 
   return (
     <>
-      <form onSubmit={handleSubmitFilm}>
+      <form onSubmit={handleSubmitFilm} className={css.submitMovie}>
         <input
           type="text"
           autoComplete="off"

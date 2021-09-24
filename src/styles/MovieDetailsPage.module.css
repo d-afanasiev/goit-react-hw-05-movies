@@ -5,3 +5,7 @@
 .imageMovie {
   margin-right: 20px;
 }
+
+.information {
+  min-height: 100vh;
+}

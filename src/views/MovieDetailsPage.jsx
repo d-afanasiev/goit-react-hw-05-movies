@@ -77,7 +77,7 @@ export default function MovieDetailsPage() {
                 <Link to={`${url}/reviews`}>Reviews</Link>
               </li>
             </ul>
-            <div>
+            <div className={css.information}>
               <Switch>
                 <Route path={`${url}/cast`}>
                   <Cast movieId={movieId}></Cast>
