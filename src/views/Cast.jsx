@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
 import { fetchActorsById } from "../services/tmdb-api";
-import Loader from "react-loader-spinner";
 
 export default function Cast({ movieId }) {
   const [actors, setActors] = useState([]);
-  const [status, setStatus] = useState("idle");
 
   console.log(actors);
 
   useEffect(() => {
-    setStatus("pending");
     fetchActorsById(movieId)
       .then((actors) => setActors(actors.cast))
-      .catch((error) => console.log(error))
-      .finally(() => setStatus("resolved"));
+      .catch((error) => console.log(error));
   }, [movieId]);
 
   const renderImage = (actor) => {
@@ -26,32 +22,19 @@ export default function Cast({ movieId }) {
 
   //   console.log(actors);
   return (
-    <>
-      {status === "pending" && (
-        <Loader
-          type="Circles"
-          color="rgb(56, 56, 56)"
-          height={100}
-          width={100}
-          timeout={1000} //3 secs
-        />
-      )}
-      {status === "resolved" && (
-        <ul>
-          {actors.map((actor) => (
-            <li key={actor.id}>
-              <img
-                src={renderImage(actor)}
-                alt={actor.name}
-                width="200"
-                height="250"
-              />
-              <p>{actor.name}</p>
-              <p>Character: {actor.character}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+    <ul>
+      {actors.map((actor) => (
+        <li key={actor.id}>
+          <img
+            src={renderImage(actor)}
+            alt={actor.name}
+            width="200"
+            height="250"
+          />
+          <p>{actor.name}</p>
+          <p>Character: {actor.character}</p>
+        </li>
+      ))}
+    </ul>
   );
 }
