@@ -3,9 +3,6 @@ import { lazy, Suspense } from "react";
 import Loader from "react-loader-spinner";
 import Container from "./components/Container";
 import AppBar from "./components/AppBar";
-// import HomePage from "./views/HomePage";
-// import MoviesPage from "./views/MoviesPage";
-// import MovieDetailsPage from "./views/MovieDetailsPage";
 
 import "./App.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";

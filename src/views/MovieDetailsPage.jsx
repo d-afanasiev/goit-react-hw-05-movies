@@ -6,8 +6,6 @@ import { lazy, Suspense } from "react";
 import Loader from "react-loader-spinner";
 // import { Notify, Block } from "notiflix";
 import { Link, useRouteMatch } from "react-router-dom";
-// import Reviews from "./Reviews";
-// import Cast from "./Cast";
 import css from "../styles/MovieDetailsPage.module.css";
 
 const Reviews = lazy(() => import("./Reviews"));
@@ -35,8 +33,6 @@ export default function MovieDetailsPage() {
       return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/488px-No-Image-Placeholder.svg.png";
     }
   };
-
-  // console.log(movie.release_date);
 
   return (
     <>

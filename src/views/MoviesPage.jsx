@@ -10,8 +10,6 @@ export default function MoviesPage() {
 
   const { url } = useRouteMatch();
 
-  console.log(url);
-
   const handleChange = (e) => {
     setNameFilm(e.target.value);
   };

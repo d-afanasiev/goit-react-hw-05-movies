@@ -4,15 +4,12 @@ import { fetchReviewsById } from "../services/tmdb-api";
 export default function Reviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
 
-  console.log(reviews);
-
   useEffect(() => {
     fetchReviewsById(movieId)
       .then((reviews) => setReviews(reviews.results))
       .catch((error) => console.log(error));
   }, [movieId]);
 
-  //   console.log(actors);
   return (
     <>
       {reviews.length === 0 ? (

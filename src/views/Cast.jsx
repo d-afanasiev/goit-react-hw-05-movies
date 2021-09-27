@@ -4,8 +4,6 @@ import { fetchActorsById } from "../services/tmdb-api";
 export default function Cast({ movieId }) {
   const [actors, setActors] = useState([]);
 
-  console.log(actors);
-
   useEffect(() => {
     fetchActorsById(movieId)
       .then((actors) => setActors(actors.cast))
@@ -20,7 +18,6 @@ export default function Cast({ movieId }) {
     }
   };
 
-  //   console.log(actors);
   return (
     <ul>
       {actors.map((actor) => (
