@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { searchBooks } from "../services/tmdb-api";
 import { Link } from "react-router-dom";
-import { useRouteMatch } from "react-router";
+import { Notify } from "notiflix";
+import { useRouteMatch, useHistory, useLocation } from "react-router";
 import css from "../styles/MoviesPage.module.css";
 
 export default function MoviesPage() {
   const [searchFilms, setSearchFilms] = useState([]);
   const [nameFilm, setNameFilm] = useState("");
+  const history = useHistory();
+  const location = useLocation();
 
   const { url } = useRouteMatch();
 
@@ -14,15 +17,33 @@ export default function MoviesPage() {
     setNameFilm(e.target.value);
   };
 
+  const sortOrder = new URLSearchParams(location.search).get("query");
+
   const handleSubmitFilm = (e) => {
     e.preventDefault();
 
-    searchBooks(nameFilm)
+    if (!nameFilm) {
+      Notify.warning("Input field is empty");
+      return;
+    }
+
+    history.push({
+      ...location,
+      search: `query=${nameFilm}`,
+    });
+  };
+
+  useEffect(() => {
+    if (!location.search) {
+      return;
+    }
+
+    searchBooks(sortOrder)
       .then((data) => {
         setSearchFilms(data.results);
       })
       .catch((error) => console.log(error));
-  };
+  }, [location.search, sortOrder]);
 
   return (
     <>
@@ -40,7 +61,14 @@ export default function MoviesPage() {
       <ul>
         {searchFilms.map((film) => (
           <li key={film.id}>
-            <Link to={`${url}/${film.id}`}>{film.title}</Link>
+            <Link
+              to={{
+                pathname: `${url}/${film.id}`,
+                state: { from: `${url}${history.location.search}` },
+              }}
+            >
+              {film.title}
+            </Link>
           </li>
         ))}
       </ul>

@@ -1,4 +1,10 @@
-import { Route, Switch, useParams } from "react-router";
+import {
+  Route,
+  Switch,
+  useParams,
+  useHistory,
+  useLocation,
+} from "react-router";
 import { useEffect, useState } from "react";
 import { fetchMovieById } from "../services/tmdb-api";
 import { getYear, parseISO } from "date-fns";
@@ -14,17 +20,28 @@ const Cast = lazy(() => import("./Cast"));
 export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
   const [genres, setGenres] = useState([]);
+  const [goBack, setGoBack] = useState("");
+  const history = useHistory();
+  const location = useLocation();
   let { movieId } = useParams();
   const { url } = useRouteMatch();
 
   useEffect(() => {
+    if (location.state) {
+      setGoBack(location.state.from);
+    }
+
     fetchMovieById(movieId)
       .then((data) => {
         setMovie(data);
         setGenres(data.genres);
       })
       .catch((error) => console.log(error));
-  }, [movieId]);
+  }, [location.state, movieId]);
+
+  const handleGoBack = () => {
+    history.push(location.state?.from ? location.state.from : "/");
+  };
 
   const renderImage = () => {
     if (movie.poster_path) {
@@ -38,6 +55,9 @@ export default function MovieDetailsPage() {
     <>
       {movie && (
         <>
+          <button className={css.goBack} onClick={handleGoBack}>
+            ← Go back
+          </button>
           <div className={css.wrapperMovie}>
             <div className={css.imageMovie}>
               <img src={renderImage()} alt={movie.title} />
@@ -59,10 +79,24 @@ export default function MovieDetailsPage() {
             <h4>Additional information</h4>
             <ul>
               <li>
-                <Link to={`${url}/cast`}>Cast</Link>
+                <Link
+                  to={{
+                    pathname: `${url}/cast`,
+                    state: { from: `${goBack}` },
+                  }}
+                >
+                  Cast
+                </Link>
               </li>
               <li>
-                <Link to={`${url}/reviews`}>Reviews</Link>
+                <Link
+                  to={{
+                    pathname: `${url}/reviews`,
+                    state: { from: `${goBack}` },
+                  }}
+                >
+                  Reviews
+                </Link>
               </li>
             </ul>
             <div className={css.information}>

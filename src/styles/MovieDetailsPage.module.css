@@ -9,3 +9,7 @@
 .information {
   min-height: 100vh;
 }
+
+.goBack {
+  margin-bottom: 20px;
+}
