@@ -21,9 +21,7 @@ export default function Cast({ movieId }) {
 
   return (
     <>
-      {actors.length === 0 ? (
-        <p>We don't have any cast for this movie</p>
-      ) : (
+      {actors.length !== 0 ? (
         <ul>
           {actors.map((actor) => (
             <li key={actor.id}>
@@ -38,6 +36,8 @@ export default function Cast({ movieId }) {
             </li>
           ))}
         </ul>
+      ) : (
+        <p>We don't have any cast for this movie</p>
       )}
     </>
   );

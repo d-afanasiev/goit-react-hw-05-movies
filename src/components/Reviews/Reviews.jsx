@@ -13,9 +13,7 @@ export default function Reviews({ movieId }) {
 
   return (
     <>
-      {reviews.length === 0 ? (
-        <p>We don't have any rewiews for this movie</p>
-      ) : (
+      {reviews.length !== 0 ? (
         <ul>
           {reviews.map((review) => (
             <li key={review.id}>
@@ -24,6 +22,8 @@ export default function Reviews({ movieId }) {
             </li>
           ))}
         </ul>
+      ) : (
+        <p>We don't have any rewiews for this movie</p>
       )}
     </>
   );
