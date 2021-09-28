@@ -1,14 +1,19 @@
 import PropTypes from "prop-types";
+import Loader from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import { fetchActorsById } from "../../services/tmdb-api";
 
-export default function Cast({ movieId }) {
+export default function Cast({ movieId, state, changeState }) {
   const [actors, setActors] = useState([]);
 
   useEffect(() => {
+    changeState("pending");
     fetchActorsById(movieId)
       .then((actors) => setActors(actors.cast))
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => {
+        changeState("resolve");
+      });
   }, [movieId]);
 
   const renderImage = (actor) => {
@@ -21,23 +26,34 @@ export default function Cast({ movieId }) {
 
   return (
     <>
-      {actors.length !== 0 ? (
+      {state === "pending" && (
+        <Loader
+          type="Circles"
+          color="rgb(56, 56, 56)"
+          height={100}
+          width={100}
+          timeout={2000}
+        />
+      )}
+      {state === "resolve" && (
         <ul>
-          {actors.map((actor) => (
-            <li key={actor.id}>
-              <img
-                src={renderImage(actor)}
-                alt={actor.name}
-                width="200"
-                height="250"
-              />
-              <p>{actor.name}</p>
-              <p>Character: {actor.character}</p>
-            </li>
-          ))}
+          {actors && actors.length > 0 ? (
+            actors.map((actor) => (
+              <li key={actor.id}>
+                <img
+                  src={renderImage(actor)}
+                  alt={actor.name}
+                  width="200"
+                  height="250"
+                />
+                <p>{actor.name}</p>
+                <p>Character: {actor.character}</p>
+              </li>
+            ))
+          ) : (
+            <p>We don't have any cast for this movie</p>
+          )}
         </ul>
-      ) : (
-        <p>We don't have any cast for this movie</p>
       )}
     </>
   );

@@ -1,29 +1,45 @@
 import PropTypes from "prop-types";
+import Loader from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import { fetchReviewsById } from "../../services/tmdb-api";
 
-export default function Reviews({ movieId }) {
+export default function Reviews({ movieId, state, changeState }) {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
+    changeState("pending");
     fetchReviewsById(movieId)
       .then((reviews) => setReviews(reviews.results))
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => {
+        changeState("resolve");
+      });
   }, [movieId]);
 
   return (
     <>
-      {reviews.length !== 0 ? (
+      {state === "pending" && (
+        <Loader
+          type="Circles"
+          color="rgb(56, 56, 56)"
+          height={100}
+          width={100}
+          timeout={2000}
+        />
+      )}
+      {state === "resolve" && (
         <ul>
-          {reviews.map((review) => (
-            <li key={review.id}>
-              <h5>{review.author}</h5>
-              <p>{review.content}</p>
-            </li>
-          ))}
+          {reviews && reviews.length > 0 ? (
+            reviews.map((review) => (
+              <li key={review.id}>
+                <h5>{review.author}</h5>
+                <p>{review.content}</p>
+              </li>
+            ))
+          ) : (
+            <p>We don't have any rewiews for this movie</p>
+          )}
         </ul>
-      ) : (
-        <p>We don't have any rewiews for this movie</p>
       )}
     </>
   );

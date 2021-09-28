@@ -25,6 +25,7 @@ export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
   const [genres, setGenres] = useState([]);
   const [goBack, setGoBack] = useState("");
+  const [state, setState] = useState("idle");
   const history = useHistory();
   const location = useLocation();
   let { movieId } = useParams();
@@ -45,6 +46,10 @@ export default function MovieDetailsPage() {
 
   const handleGoBack = () => {
     history.push(location.state?.from ? location.state.from : "/");
+  };
+
+  const changeState = (state) => {
+    setState(state);
   };
 
   const renderImage = () => {
@@ -117,10 +122,18 @@ export default function MovieDetailsPage() {
               >
                 <Switch>
                   <Route path={`${url}/cast`}>
-                    <Cast movieId={movieId}></Cast>
+                    <Cast
+                      movieId={movieId}
+                      state={state}
+                      changeState={changeState}
+                    ></Cast>
                   </Route>
                   <Route path={`${url}/reviews`}>
-                    <Reviews movieId={movieId}></Reviews>
+                    <Reviews
+                      movieId={movieId}
+                      state={state}
+                      changeState={changeState}
+                    ></Reviews>
                   </Route>
                 </Switch>
               </Suspense>
