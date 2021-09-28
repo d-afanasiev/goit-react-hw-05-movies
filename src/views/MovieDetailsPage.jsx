@@ -14,8 +14,12 @@ import Loader from "react-loader-spinner";
 import { Link, useRouteMatch } from "react-router-dom";
 import css from "../styles/MovieDetailsPage.module.css";
 
-const Reviews = lazy(() => import("./Reviews"));
-const Cast = lazy(() => import("./Cast"));
+const Reviews = lazy(() =>
+  import("../components/Reviews/Reviews" /* webpackChunkName: "reviews-view" */)
+);
+const Cast = lazy(() =>
+  import("../components/Cast/Cast" /* webpackChunkName: "cast-view" */)
+);
 
 export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);

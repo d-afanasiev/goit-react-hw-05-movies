@@ -1,5 +1,6 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { fetchReviewsById } from "../services/tmdb-api";
+import { fetchReviewsById } from "../../services/tmdb-api";
 
 export default function Reviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
@@ -27,3 +28,7 @@ export default function Reviews({ movieId }) {
     </>
   );
 }
+
+Reviews.propTypes = {
+  movieId: PropTypes.string,
+};

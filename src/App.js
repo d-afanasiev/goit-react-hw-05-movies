@@ -7,9 +7,17 @@ import AppBar from "./components/AppBar";
 import "./App.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-const HomePage = lazy(() => import("./views/HomePage"));
-const MoviesPage = lazy(() => import("./views/MoviesPage"));
-const MovieDetailsPage = lazy(() => import("./views/MovieDetailsPage"));
+const HomePage = lazy(() =>
+  import("./views/HomePage" /* webpackChunkName: "homepage-view" */)
+);
+const MoviesPage = lazy(() =>
+  import("./views/MoviesPage" /* webpackChunkName: "moviespage-view" */)
+);
+const MovieDetailsPage = lazy(() =>
+  import(
+    "./views/MovieDetailsPage" /* webpackChunkName: "moviedetailspage-view" */
+  )
+);
 
 function App() {
   return (
