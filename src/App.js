@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import Loader from "react-loader-spinner";
 import Container from "./components/Container";
 import AppBar from "./components/AppBar";
+import NotFoundView from "./views/NotFoundView";
 
 import "./App.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route path="/movies/:movieId">
             <MovieDetailsPage />
+          </Route>
+          <Route>
+            <NotFoundView />
           </Route>
         </Switch>
       </Suspense>
