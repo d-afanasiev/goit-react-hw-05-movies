@@ -14,7 +14,7 @@ export default function Cast({ movieId, state, changeState }) {
       .finally(() => {
         changeState("resolve");
       });
-  }, [movieId]);
+  }, [changeState, movieId]);
 
   const renderImage = (actor) => {
     if (actor.profile_path) {

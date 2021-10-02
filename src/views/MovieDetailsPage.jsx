@@ -5,7 +5,7 @@ import {
   useHistory,
   useLocation,
 } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchMovieById } from "../services/tmdb-api";
 import { getYear, parseISO } from "date-fns";
 import { lazy, Suspense } from "react";
@@ -48,9 +48,9 @@ export default function MovieDetailsPage() {
     history.push(location.state?.from ? location.state.from : "/");
   };
 
-  const changeState = (state) => {
-    setState(state);
-  };
+  const changeState = useCallback((data) => {
+    setState(data);
+  }, []);
 
   const renderImage = () => {
     if (movie.poster_path) {

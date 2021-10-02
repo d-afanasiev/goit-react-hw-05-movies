@@ -14,7 +14,7 @@ export default function Reviews({ movieId, state, changeState }) {
       .finally(() => {
         changeState("resolve");
       });
-  }, [movieId]);
+  }, [changeState, movieId]);
 
   return (
     <>
